@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+
+  <head>
+    <title>Rotary Sensor Data</title>
+    <script type="text/javascript" src="http://smoothiecharts.org/smoothie.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script type="text/javascript">
+        var series = new TimeSeries();
+        var chart = new SmoothieChart({grid:{fillStyle:'#099cef'},maxValue:360,minValue:0});
+        $(function () {
+          var socket = io();
+          socket.on('updateAngle', function(msg){
+            series.append(new Date().getTime(),msg.value);
+            console.log(msg.value)
+          });
+        });
+        function createTimeline() {
+            chart.addTimeSeries(series, {lineWidth:2,fillStyle:'rgba(0,0,0,0.29)'});
+            chart.streamTo(document.getElementById("chart"), 10);
+          }
+    </script>
+  </head>
+
+  <body onload="createTimeline()">
+    <h1>Rotary Sensor Data - Live Streaming</h1>
+    <canvas id="chart" width="800" height="400"></canvas>
+  </body>
+</html>

@@ -1,0 +1,33 @@
+version: '2'
+services:
+  nodeguy:
+    image: nws:latest
+    ports:
+      - 8000:8000
+    restart: always
+    environment:
+      MQTTServer_URL: mqttserv
+    networks:
+      - bridge-network
+  pythonguy:
+    image: mqttpy:latest
+    restart: always
+    environment:
+      HTTPServer_URL: nodeguy
+      MQTTServer_URL: mqttserv
+      HTTPServer_PORT: 8000 
+    privileged: true 
+    networks:
+      - bridge-network
+    depends_on:
+      - mqttserv
+      - nodeguy
+  mqttserv:
+    image: eclipse-mosquitto
+    ports:
+      - 1883:1883
+    networks:
+      - bridge-network
+networks:
+    bridge-network:
+     driver: bridge
