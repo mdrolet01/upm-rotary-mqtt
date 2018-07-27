@@ -8,6 +8,7 @@ from time import sleep
 from upm import pyupm_grove as grove
 
 broker= os.environ['MQTTServer_URL'] # Try using mosquitto container DNS --  Use different IP Address if publishing to another device
+print(broker)
 port=1883
 def on_publish(client,userdata,result):
     #print("data published \n")

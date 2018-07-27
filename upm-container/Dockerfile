@@ -27,5 +27,5 @@ USER root
 # Copy the current directory contents into the container at /app
 ADD . /app
 
-CMD ["python", "app.py"]
+CMD ["./shel.sh"]
 
