@@ -5,21 +5,12 @@ FROM ubuntu:16.04
 WORKDIR /app
 
 # Install any needed packages specified in requirements.txt
-RUN apt-get -yqq update
-RUN apt-get -y install sudo
-RUN apt-get install -y software-properties-common python-software-properties
-RUN apt-get install -yqq python
-RUN apt-get -yqq install python-pip
-RUN pip install paho-mqtt
-RUN add-apt-repository ppa:mraa/mraa
-RUN apt-get update
-RUN apt-get install -y libmraa1 
-RUN apt-get install -y libmraa-dev 
-RUN apt-get install -y python-mraa 
-RUN apt-get install -y mraa-tools
-RUN apt-get install -y libupm-dev 
-RUN apt-get install -y python-upm 
-RUN apt-get install -y upm-examples
+RUN apt-get -y update \
+&& apt-get install -y sudo software-properties-common python-software-properties python python-pip \
+&& pip install paho-mqtt \
+&& add-apt-repository ppa:mraa/mraa \
+&& apt-get -y update \
+&& apt-get install -y libmraa1 libmraa-dev python-mraa mraa-tools libupm-dev python-upm upm-examples
 
 EXPOSE 1883
 # Run app.py when the container launches
@@ -27,5 +18,4 @@ USER root
 # Copy the current directory contents into the container at /app
 ADD . /app
 
-CMD ["./shel.sh"]
-
+CMD ["python", "app.py"]

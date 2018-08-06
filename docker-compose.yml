@@ -13,8 +13,8 @@ services:
     image: mqttpy:latest
     restart: always
     environment:
-      HTTPServer_URL: nodeguy
       MQTTServer_URL: mqttserv
+      HTTPServer_URL: nodeguy
       HTTPServer_PORT: 8000 
     privileged: true 
     networks:
@@ -23,7 +23,7 @@ services:
       - mqttserv
       - nodeguy
   mqttserv:
-    image: eclipse-mosquitto
+    image: eclipse-mosquitto:latest
     ports:
       - 1883:1883
     networks:
